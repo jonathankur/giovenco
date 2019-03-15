@@ -83,6 +83,8 @@
 <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
    <string>To verify your location</string>
 </edit-config>
+    <plugin name="cordova-plugin-nativegeocoder" spec="3.2.1" />
+
 </widget>
 
 
