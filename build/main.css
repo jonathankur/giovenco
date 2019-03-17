@@ -25691,3 +25691,16 @@ ion-navbar.toolbar {
   padding-bottom: 4px;
   min-height: 46px;
 }
+
+page-home .error {
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #EC644B;
+}
+
+page-home .error p {
+  color: white;
+  font-weight: bold;
+}
