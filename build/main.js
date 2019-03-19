@@ -70,7 +70,10 @@ var HomePage = /** @class */ (function () {
         this.mode = 0;
         this.myname = '';
         this.started = 0;
-        this.p = { email: '', pass: '', empcode: '', timezn: '', locn: 'Unknown', lat: '', lng: '', me: 0 };
+        this.tick = './assets/img/tick.png';
+        this.blank = './assets/img/blank.png';
+        this.p = { email: '', pass: '', empcode: '', timezn: '', locn: 'Unknown', lat: '', lng: '', me: 0, job: 0 };
+        this.options = [];
     }
     HomePage.prototype.ionViewDidLoad = function () {
         var that = this;
@@ -120,6 +123,7 @@ var HomePage = /** @class */ (function () {
                 var d = JSON.parse(s);
                 that.p.locn = d.locn;
                 that.started = d.started;
+                that.options = d.options;
             });
         }).catch(function (error) {
             that.p.lat = 0;
@@ -129,6 +133,7 @@ var HomePage = /** @class */ (function () {
                 var d = JSON.parse(s);
                 that.p.locn = d.locn;
                 that.started = d.started;
+                that.options = d.options;
             });
         });
     };
@@ -136,6 +141,15 @@ var HomePage = /** @class */ (function () {
         window.localStorage.removeItem('me');
         window.localStorage.setItem('myname', '');
         this.mode = 0;
+    };
+    HomePage.prototype.chooseOption = function (a) {
+        this.p.job = a;
+        for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i].id == a)
+                this.options[i].selected = 1;
+            else
+                this.options[i].selected = 0;
+        }
     };
     HomePage.prototype.startShift = function () {
         var that = this;
@@ -173,12 +187,11 @@ var HomePage = /** @class */ (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/var/www/html/ionic/giovenco/src/pages/home/home.html"*/'<ion-header style="background-color:white">\n<ion-navbar align-title="center"  style="background-color:white">\n		<ion-title style="background-color:white"><img src="./assets/img/mainbanner.png"></ion-title>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n<div *ngIf="mode==0">\n<p>Welcome!</p>\n\n<ion-list>\n						<ion-item>\n							<ion-label color="primary" floating>Email Address</ion-label>\n							<ion-input type="email" [(ngModel)]="p.email" name="email"  required></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Password</ion-label>\n							<ion-input type="password" [(ngModel)]="p.pass" name="pass"  required></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Employer Code</ion-label>\n							<ion-input type="text" [(ngModel)]="p.empcode" name="empcode"  required></ion-input>\n						</ion-item>\n					</ion-list>\n			<ion-row>\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full (click)="checkeml()">Log In</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n			<ion-row>\n				<ion-col padding class="error" *ngIf="error">\n					<p>{{error}}</p>\n				</ion-col>\n			</ion-row>\n\n</div>\n<div *ngIf="mode==1">\n<ion-list>\n						<ion-item>\n							<ion-label color="primary" floating>Your Name</ion-label>\n							<ion-input type="text" [(ngModel)]="myname" name="myname"  readonly></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Current Location</ion-label>\n							<ion-input type="text" [(ngModel)]="p.locn" name="locn"  readonly></ion-input>\n						</ion-item>\n	<ion-item>\n							<ion-label color="primary" floating>TimeZone</ion-label>\n							<ion-input type="text" [(ngModel)]="p.timezn" name="timezn" readonly></ion-input>\n						</ion-item>\n					</ion-list>\n			<ion-row *ngIf="started==0">\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full color="secondary" (click)="startShift()">Start Shift</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n			<ion-row *ngIf="started==1">\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<p>Shift in Progress</p>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n\n			<ion-row *ngIf="started==1">\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full color="secondary" (click)="endShift()">End Shift</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n			<ion-row>\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full (click)="logout()">Log Out</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n</div>\n</ion-content>'/*ion-inline-end:"/var/www/html/ionic/giovenco/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/var/www/html/ionic/giovenco/src/pages/home/home.html"*/'<ion-header style="background-color:white">\n<ion-navbar align-title="center"  style="background-color:white">\n		<ion-title style="background-color:white"><img src="./assets/img/mainbanner.png"></ion-title>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n<div *ngIf="mode==0">\n<p>Welcome!</p>\n\n<ion-list>\n						<ion-item>\n							<ion-label color="primary" floating>Email Address</ion-label>\n							<ion-input type="email" [(ngModel)]="p.email" name="email"  required></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Password</ion-label>\n							<ion-input type="password" [(ngModel)]="p.pass" name="pass"  required></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Employer Code</ion-label>\n							<ion-input type="text" [(ngModel)]="p.empcode" name="empcode"  required></ion-input>\n						</ion-item>\n					</ion-list>\n			<ion-row>\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full (click)="checkeml()">Log In</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n			<ion-row>\n				<ion-col padding class="error" *ngIf="error">\n					<p>{{error}}</p>\n				</ion-col>\n			</ion-row>\n\n</div>\n<div *ngIf="mode==1">\n<ion-list>\n						<ion-item>\n							<ion-label color="primary" floating>Your Name</ion-label>\n							<ion-input type="text" [(ngModel)]="myname" name="myname"  readonly></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Current Location</ion-label>\n							<ion-input type="text" [(ngModel)]="p.locn" name="locn"  readonly></ion-input>\n						</ion-item>\n	<ion-item>\n							<ion-label color="primary" floating>TimeZone</ion-label>\n							<ion-input type="text" [(ngModel)]="p.timezn" name="timezn" readonly></ion-input>\n						</ion-item>\n       </ion-list>\n<ion-list *ngIf="started==0">\n<ion-item *ngFor="let o of options">\n<ion-row (click)="chooseOption(o.id)">\n<ion-col col-2 >\n<img [src]="o.selected ? tick : blank" >\n</ion-col>\n\n<ion-col col-10>\n<p><b>{{ o.client }}</b></p>\n<p>{{ o.address }}</p>\n</ion-col>\n</ion-row>\n</ion-item>\n\n					</ion-list>\n			<ion-row *ngIf="started==0">\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full color="secondary" (click)="startShift()">Start Shift</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n			<ion-row *ngIf="started==1">\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<p>Shift in Progress</p>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n\n			<ion-row *ngIf="started==1">\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full color="secondary" (click)="endShift()">End Shift</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n			<ion-row>\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full (click)="logout()">Log Out</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n\n</div>\n</ion-content>'/*ion-inline-end:"/var/www/html/ionic/giovenco/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* LoadingController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["a" /* HttpClient */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_native_http__["a" /* HTTP */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_native_http__["a" /* HTTP */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_geolocation__["a" /* Geolocation */], __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_http__["a" /* HTTP */]])
     ], HomePage);
     return HomePage;
-    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=home.js.map
