@@ -85,6 +85,9 @@
 </edit-config>
 
     <plugin name="cordova-plugin-advanced-http" spec="2.0.6" />
+<plugin name="onesignal-cordova-plugin" spec="2.4.5" source="npm"/>
+
+
 </widget>
 
 
