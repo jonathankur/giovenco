@@ -75,10 +75,12 @@ var HomePage = /** @class */ (function () {
         this.myname = '';
         this.started = 0;
         this.txt = '';
+        this.upto = 0;
         this.tick = './assets/img/tick.png';
         this.blank = './assets/img/blank.png';
         this.p = { email: '', pass: '', empcode: '', timezn: '', locn: 'Unknown', lat: '', lng: '', me: 0, job: 0 };
         this.messages = [];
+        this.upto = 0;
     }
     HomePage.prototype.getpushinfo = function () {
         var _this = this;
@@ -106,6 +108,9 @@ var HomePage = /** @class */ (function () {
             this.myname = window.localStorage.getItem('myname');
             this.getpushinfo();
             this.pinme();
+            that.timer = setInterval(function () {
+                that.pinme();
+            }, 7000);
         }
         else
             this.mode = 0;
@@ -132,10 +137,16 @@ var HomePage = /** @class */ (function () {
     };
     HomePage.prototype.pinme = function () {
         var that = this;
-        this.http.get('http://jaydenkur.com.au/giovenco/server/mystate.php?me=' + window.localStorage.getItem('me') + '&rnd=' + Math.random()).subscribe(function (data) {
+        var url = 'http://jaydenkur.com.au/giovenco/server/mystate.php?me=' + window.localStorage.getItem('me') + '&upto=' + that.upto + '&rnd=' + Math.random();
+        //   console.log(url);
+        this.http.get(url).subscribe(function (data) {
             var s = JSON.stringify(data);
+            //   console.log(s);
             var d = JSON.parse(s);
-            that.messages = d.messages;
+            if (d.upto > that.upto) {
+                that.messages = d.messages;
+                that.upto = d.upto;
+            }
         });
     };
     HomePage.prototype.sendtxt = function () {
@@ -162,9 +173,10 @@ var HomePage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-home',template:/*ion-inline-start:"/var/www/html/ionic/giovenco/src/pages/home/home.html"*/'<ion-header style="background-color:white; border-bottom:1px solid black">\n<ion-navbar align-title="center"  style="background-color:white">\n		<ion-title style="background-color:white"><img src="./assets/img/mainbanner.png"></ion-title>\n	</ion-navbar>\n\n<ion-grid no-padding *ngIf="mode>0">\n<ion-row text-center>\n <ion-col col-4 (click)="startstop()">\n <ion-icon name="time"> </ion-icon>\n </ion-col>\n <ion-col col-4 (click)="shifts()">\n <ion-icon name="calendar"> </ion-icon>\n </ion-col>\n\n <ion-col col-4 (click)="logout()" >\n <ion-icon name="undo"> </ion-icon>\n </ion-col>\n</ion-row>\n<ion-row text-center style="min-height:30px !important">\n\n <ion-col col-4 (click)="startstop()">\n Start/Stop Shift\n </ion-col>\n\n <ion-col col-4 (click)="shifts()">\n Upcoming Shifts\n </ion-col>\n\n <ion-col col-4 (click)="logout()" >\n Log Out\n </ion-col>\n\n</ion-row>\n\n</ion-grid>\n\n</ion-header>\n\n<ion-content padding>\n<div *ngIf="mode==0">\n<p>Welcome!</p>\n\n<ion-list>\n						<ion-item>\n							<ion-label color="primary" floating>Email Address</ion-label>\n							<ion-input type="email" [(ngModel)]="p.email" name="email"  required></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Password</ion-label>\n							<ion-input type="password" [(ngModel)]="p.pass" name="pass"  required></ion-input>\n						</ion-item>\n						<ion-item>\n							<ion-label color="primary" floating>Employer Code</ion-label>\n							<ion-input type="text" [(ngModel)]="p.empcode" name="empcode"  required></ion-input>\n						</ion-item>\n					</ion-list>\n			<ion-row>\n<ion-col col-1>\n</ion-col>\n				<ion-col col-10>\n					<button ion-button full (click)="checkeml()">Log In</button>\n				</ion-col>\n<ion-col col-1>\n</ion-col>\n			</ion-row>\n			<ion-row>\n				<ion-col padding class="error" *ngIf="error">\n					<p>{{error}}</p>\n				</ion-col>\n			</ion-row>\n\n</div>\n<div *ngIf="mode==1" style="margin-top:40px">\n<ion-list no-lines no-padding>\n<ion-item *ngFor="let m of messages" text-wrap>\n<ion-row *ngIf="m.out==1" text-wrap>\n<ion-col col-6 style="border:1px solid black">\n<p>{{ m.msg }}</p>\n</ion-col>\n<ion-col col-6>\n</ion-col>\n</ion-row>\n\n<ion-row *ngIf="m.out==0" text-wrap>\n<ion-col col-6>\n</ion-col>\n<ion-col col-6 style="background-color:#E0FFE0; color:black; border:1px solid black">\n<p>{{ m.msg }}</p>\n</ion-col>\n</ion-row>\n</ion-item>\n</ion-list>\n</div>\n</ion-content>\n<ion-footer *ngIf="mode>0" style="background-color:gainsboro">\n<ion-row>\n<ion-col col-10>\n<input type="text" [(ngModel)]="txt" style="width:100%; padding:10px 0px 10px 0px">\n</ion-col>\n<ion-col col-2>\n<button ion-button full (click)="sendtxt()">Send</button>\n</ion-col>\n</ion-row>\n</ion-footer>'/*ion-inline-end:"/var/www/html/ionic/giovenco/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_http__["a" /* HTTP */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__["a" /* OneSignal */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* LoadingController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_http__["a" /* HTTP */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_http__["a" /* HTTP */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__["a" /* OneSignal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__["a" /* OneSignal */]) === "function" && _e || Object])
     ], HomePage);
     return HomePage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=home.js.map
