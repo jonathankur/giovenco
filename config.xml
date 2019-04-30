@@ -1,5 +1,5 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<widget id="au.com.giovenco" version="0.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="au.com.giovenco" version="0.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Gioscaff</name>
     <description>Time-Sheet App</description>
     <author email="jonathankur@mail.com" href="http://jkur.com.au/">Jonathan Kur</author>
