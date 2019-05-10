@@ -25704,3 +25704,9 @@ page-home .error p {
   color: white;
   font-weight: bold;
 }
+
+page-home .ntry {
+  margin-top: 5px !important;
+  width: 100%;
+  padding: 7px 0x 7px 0px !important;
+}
