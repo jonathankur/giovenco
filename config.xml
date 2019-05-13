@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<widget id="au.com.giovenco" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="au.com.giovenco" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Gioscaff</name>
     <description>Time-Sheet App</description>
     <author email="jonathankur@mail.com" href="http://jkur.com.au/">Jonathan Kur</author>
@@ -81,7 +81,7 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To verify your location" />
     </plugin>
 <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-   <string>To verify your location</string>
+   <string>To prove that you are at the Job Site</string>
 </edit-config>
 <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
    <string>The App will not track your location when not in use</string>
